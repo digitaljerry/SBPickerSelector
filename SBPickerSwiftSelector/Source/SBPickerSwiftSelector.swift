@@ -74,9 +74,15 @@ public class SBPickerSwiftSelector: UIViewController {
         pickerView.delegate = self
         pickerView.dataSource = self
         
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        pickerView.backgroundColor = UIColor.white
-        datePickerView.backgroundColor = UIColor.white
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = UIColor.label.withAlphaComponent(0.5)
+            pickerView.backgroundColor = UIColor.systemBackground
+            datePickerView.backgroundColor = UIColor.systemBackground
+        } else {
+            view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            pickerView.backgroundColor = UIColor.white
+            datePickerView.backgroundColor = UIColor.white
+        }
         setupPicker()
         
         cancelButton.title = NSLocalizedString("Cancel", comment: "")
@@ -311,7 +317,11 @@ class InAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(toView.view)
         containerView.bringSubviewToFront(toView.view)
         
-        toView.view.backgroundColor = UIColor.black.withAlphaComponent(0)
+        if #available(iOS 13.0, *) {
+            toView.view.backgroundColor = UIColor.label.withAlphaComponent(0)
+        } else {
+            toView.view.backgroundColor = UIColor.black.withAlphaComponent(0)
+        }
         
         let endFrame = toView.stackView.frame
         var originFrame = toView.stackView.frame
@@ -319,7 +329,11 @@ class InAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         toView.stackView.frame = originFrame
         
         UIView.animate(withDuration: 0.3, delay:0.0, animations: {
-            toView.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            if #available(iOS 13.0, *) {
+                toView.view.backgroundColor = UIColor.label.withAlphaComponent(0.5)
+            } else {
+                toView.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            }
             toView.stackView.frame = endFrame
         },completion: { _ in
             transitionContext.completeTransition(true)
@@ -344,7 +358,11 @@ class OutAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         var endFrame = fromView.stackView.frame
         endFrame.origin.y = toView.view.frame.height
         UIView.animate(withDuration: 0.3, delay:0.0, animations: {
-            fromView.view.backgroundColor = UIColor.black.withAlphaComponent(0)
+            if #available(iOS 13.0, *) {
+                fromView.view.backgroundColor = UIColor.label.withAlphaComponent(0)
+            } else {
+                fromView.view.backgroundColor = UIColor.black.withAlphaComponent(0)
+            }
             fromView.stackView.frame = endFrame
         },completion: { _ in
             transitionContext.completeTransition(true)
